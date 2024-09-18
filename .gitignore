@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+/play
+.npmrc
+.env
 
 # testing
 /coverage

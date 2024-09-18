@@ -1,0 +1,11 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "editor.formatOnSave": "explicit"
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "prettier.embeddedLanguageFormatting": "off",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true
+}

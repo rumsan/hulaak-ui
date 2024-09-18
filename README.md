@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rumsan Hulaak
+
+This is the UI for the Rumsan Hulaak project. Make sure to run the API server before running this project. You can find the API server [https://github.com/rumsan/hulaak](https://github.com/rumsan/hulaak)
+
+Rumsan Hulaak is an open-source, disposable email service designed to handle email reception on port 25.
+It is similar to [Mailinator](https://mailinator.com) service. It comes with a robust REST API to manage email inboxes, making it ideal for testing and temporary email needs. With Hulaak, developers can seamlessly manage disposable email accounts and interact with inboxes via a simple API.
+
+## Features
+
+- Receive emails on port 25.
+- Disposable email inboxes for testing and temporary use.
+- Easy to manage email inboxes through a REST API.
+- Manage domains and settings for email handling.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Start the application
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run `pnpm dev` to start the development server.
 
-## Learn More
+## Build for production
 
-To learn more about Next.js, take a look at the following resources:
+Run `pnpm build` to build the application. The build artifacts are stored in the output directory (e.g. `dist/` or `build/`), ready to be deployed.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+We welcome contributions! Please follow these steps to contribute:
 
-## Deploy on Vercel
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature/your-feature`).
+3. Commit your changes (`git commit -m 'Add your feature'`).
+4. Push to the branch (`git push origin feature/your-feature`).
+5. Open a pull request.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Connect with us!
+
+- [Join the community](https://rumsan.com)
+- [Follow us on LinkedIn](https://www.linkedin.com/company/rumsan)
