@@ -20,6 +20,10 @@ import { useEffect, useRef } from 'react';
 import { EmailQuery } from '../../../../query/email.query';
 
 interface MailDisplayProps {
+  inboxInfo: {
+    host: string;
+    mailbox: string;
+  };
   selected?: Mail;
 }
 
@@ -53,7 +57,7 @@ const getRandomLightColor = (str: string = 'RS') => {
 };
 */
 
-export function MailDisplay({ selected }: MailDisplayProps) {
+export function MailDisplay({ inboxInfo, selected }: MailDisplayProps) {
   const { RsAlert, showAlert } = useRsAlert();
   const { data: mail } = EmailQuery.useGetById(selected?.id || '');
   const initials = mail?.from?.substring(0, 2).toUpperCase() || 'RS';
@@ -181,8 +185,10 @@ export function MailDisplay({ selected }: MailDisplayProps) {
           </div> */}
         </div>
       ) : (
-        <div className="p-8 text-center text-muted-foreground">
-          No message selected
+        <div className="p-20 text-center text-muted-foreground">
+          Send mail to this address
+          <br />
+          <b>{`${inboxInfo.mailbox}@${inboxInfo.host}`}</b>
         </div>
       )}
     </div>

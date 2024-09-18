@@ -54,6 +54,7 @@ export function Inbox({
   mails = inbox.data || [];
 
   useEffect(() => {
+    setSelected(null);
     const socketIo = io(process.env.NEXT_PUBLIC_HULAAK_URL as string);
 
     socketIo.on('new-email', (message: Mail) => {
@@ -70,13 +71,15 @@ export function Inbox({
     setSocket(socketIo);
 
     socketIo.on('connect', () => {
-      console.info('Connected to the websocket server');
+      console.info(
+        `Listening for message on mailbox: ${inboxInfo.mailbox}@${inboxInfo.host}`
+      );
     });
 
     return () => {
       socketIo.disconnect();
     };
-  }, []);
+  }, [inboxInfo]);
 
   const selectMail = async (mail: Mail) => {
     const selectedMail = mails.find((item) => item.id === mail.id);
@@ -218,7 +221,7 @@ export function Inbox({
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={defaultLayout[2]}>
-          <MailDisplay selected={selected || undefined} />
+          <MailDisplay selected={selected || undefined} inboxInfo={inboxInfo} />
         </ResizablePanel>
       </ResizablePanelGroup>
     </TooltipProvider>
