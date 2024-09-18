@@ -12,12 +12,13 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Inbox } from './components/inbox';
 
 function MailHome() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const inboxInfo = {
     host: 'maile.uk',
     mailbox: '',
@@ -25,14 +26,11 @@ function MailHome() {
   if (typeof window !== 'undefined') {
     const currentUrl = window.location.href;
     const urlObject = new URL(currentUrl);
-    const query = Object.fromEntries(new URLSearchParams(urlObject.search));
 
     if (urlObject.hostname !== 'localhost') {
       inboxInfo.host = urlObject.hostname;
     }
-    if (query.mailbox) {
-      inboxInfo.mailbox = query.mailbox;
-    }
+    inboxInfo.mailbox = searchParams.get('mailbox') || '';
   }
 
   const [searchInput, setSearchInput] = useState('');
