@@ -85,7 +85,7 @@ export function LoginForm() {
           data. <br />
           <br />
           By checking mailbox you agree our <br />
-          <Link href="#" className="underline">
+          <Link href="/terms" className="underline">
             Terms and Conditions
           </Link>
         </div>
