@@ -54,7 +54,7 @@ const getRandomLightColor = (str: string = 'RS') => {
 
 export function MailDisplay({ selected }: MailDisplayProps) {
   const { RsAlert, showAlert } = useRsAlert();
-  const { data: mail } = EmailQuery.useGetById(selected?.id);
+  const { data: mail } = EmailQuery.useGetById(selected?.id || '');
   const initials = mail?.from?.substring(0, 2).toUpperCase() || 'RS';
   const avatraColor = getRandomLightColor(initials);
   const today = new Date();

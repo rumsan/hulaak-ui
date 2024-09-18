@@ -218,7 +218,7 @@ export function Inbox({
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={defaultLayout[2]}>
-          <MailDisplay selected={selected} />
+          <MailDisplay selected={selected || undefined} />
         </ResizablePanel>
       </ResizablePanelGroup>
     </TooltipProvider>
