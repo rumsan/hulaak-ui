@@ -5,7 +5,7 @@ import { UseQueryResult, useMutation, useQuery } from '@tanstack/react-query';
 import { useRSQuery } from './rs-query-provider';
 
 const inbox = getEmailClient({
-  baseURL: `${process.env['NEXT_PUBLIC_HULAAK_URL']}/api/v1`,
+  baseURL: `${process.env['NEXT_PUBLIC_HULAAK_URL']}/v1`,
 });
 
 const useGetById = (
