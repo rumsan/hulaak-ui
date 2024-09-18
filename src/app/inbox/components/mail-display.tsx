@@ -16,6 +16,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { useRsAlert } from '@/hooks/rs.alert';
 import { Mail } from '@rumsan/hulaak/types';
+import { useEffect, useRef } from 'react';
 import { EmailQuery } from '../../../../query/email.query';
 
 interface MailDisplayProps {
@@ -57,7 +58,20 @@ export function MailDisplay({ selected }: MailDisplayProps) {
   const { data: mail } = EmailQuery.useGetById(selected?.id || '');
   const initials = mail?.from?.substring(0, 2).toUpperCase() || 'RS';
   const avatraColor = getRandomLightColor(initials);
-  const today = new Date();
+
+  const iframeRef = useRef(null);
+
+  useEffect(() => {
+    if (!iframeRef.current) return;
+    const iframeDoc =
+      iframeRef.current.contentDocument ||
+      iframeRef.current.contentWindow.document;
+
+    iframeDoc.open();
+    iframeDoc.write(DOMPurify.sanitize(mail?.message?.html || ''));
+    iframeDoc.close();
+    iframeRef.current.contentWindow.scrollTo(0, 0);
+  }, [mail]);
 
   const showComingSoon = () => {
     showAlert({
@@ -116,13 +130,18 @@ export function MailDisplay({ selected }: MailDisplayProps) {
             </DropdownMenu>
           </div>
           <Separator />
-          <ScrollArea className="h-[calc(100vh-210px)]">
-            <div
+          <ScrollArea className="h-[calc(100vh-210px)] p">
+            {/* <div
               className="flex-1 whitespace-pre-wrap p-4 text-sm"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(mail.message?.html || ''),
               }}
-            ></div>
+            ></div> */}
+            <iframe
+              ref={iframeRef}
+              className="w-full h-[calc(100vh-220px)] border-none"
+              title="email-content"
+            />
           </ScrollArea>
           <Separator />
           <div className="h-20">

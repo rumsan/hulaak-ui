@@ -13,6 +13,9 @@ interface MailListProps {
 }
 
 export function MailList({ items, selected, selectMail }: MailListProps) {
+  // useEffect(() => {
+  //   if (items.length) selectMail(items[0]);
+  // }, [items]);
   return (
     <ScrollArea className="h-[calc(100vh-225px)]">
       <div className="flex flex-col gap-2 p-4 pt-0">
