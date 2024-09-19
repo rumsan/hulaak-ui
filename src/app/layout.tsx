@@ -16,9 +16,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Maile.uk - Temporary and disposable email mailbox',
+  title: 'Maile.uk - Disposable mailbox',
   description:
-    'Rumsan Hulaak is an open-source, disposable email service designed to handle email reception on port 25. It is similar to Mailinator service. It comes with a robust REST API to manage email inboxes, making it ideal for testing and temporary email needs. With Hulaak, developers can seamlessly manage disposable email accounts and interact with inboxes via a simple API.',
+    'Maile.uk is an open-source, disposable email service designed to handle email reception on port 25. It is similar to Mailinator service. It comes with a robust REST API to manage email inboxes, making it ideal for testing and temporary email needs. With Hulaak, developers can seamlessly manage disposable email accounts and interact with inboxes via a simple API.',
 };
 
 export default function RootLayout({
