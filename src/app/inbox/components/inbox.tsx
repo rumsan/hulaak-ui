@@ -124,10 +124,11 @@ export function Inbox({
           //   setIsCollapsed(collapsed);
           //   document.cookie = `react-resizable-panels:collapsed=${collapsed}`;
           // }}
-          className={cn(
-            isCollapsed &&
-              'min-w-[50px] transition-all duration-300 ease-in-out'
-          )}
+          // className={cn(
+          //   isCollapsed &&
+          //     'min-w-[50px] transition-all duration-300 ease-in-out'
+          // )}
+          className="max-sm:hidden"
         >
           <div
             className={cn(
@@ -174,7 +175,7 @@ export function Inbox({
             </div>
           </div>
         </ResizablePanel>
-        <ResizableHandle />
+        <ResizableHandle className="max-sm:hidden" />
         <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
           <Tabs defaultValue="all">
             <div className="flex items-center px-4 py-2">
@@ -219,8 +220,11 @@ export function Inbox({
             </TabsContent>
           </Tabs>
         </ResizablePanel>
-        <ResizableHandle />
-        <ResizablePanel defaultSize={defaultLayout[2]}>
+        <ResizableHandle className="max-sm:hidden" />
+        <ResizablePanel
+          defaultSize={defaultLayout[2]}
+          className="max-sm:hidden"
+        >
           <MailDisplay selected={selected || undefined} inboxInfo={inboxInfo} />
         </ResizablePanel>
       </ResizablePanelGroup>
