@@ -24,6 +24,7 @@ async function fetchRandomWords() {
 export function LoginForm() {
   const [email, setEmail] = useState('');
   const [randomPlaceholder, setRandomPlaceholder] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   // Fetch random words when the component mounts
@@ -39,9 +40,17 @@ export function LoginForm() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email) {
-      const inbox = email?.trim().toLowerCase();
-      router.push(`/inbox?mailbox=${encodeURIComponent(inbox)}`);
+    setLoading(true);
+
+    try {
+      if (email) {
+        const inbox = email?.trim().toLowerCase();
+        router.push(`/inbox?mailbox=${encodeURIComponent(inbox)}`);
+      }
+    } catch (error) {
+      // Handle error
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -74,8 +83,8 @@ export function LoginForm() {
                 <span className="ml-2">@maile.uk</span>
               </div>
             </div>
-            <Button type="submit" className="w-full">
-              Open Mailbox
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? 'Loading...' : 'Open Mailbox'}
             </Button>
           </div>
         </form>

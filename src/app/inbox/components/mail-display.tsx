@@ -66,13 +66,18 @@ export function MailDisplay({ inboxInfo, selected }: MailDisplayProps) {
   const iframeRef = useRef(null);
 
   useEffect(() => {
+    let message = mail?.message?.html;
+    if (message < 5) {
+      message = mail?.message?.text || 'ERROR: NO BODY SENT';
+    }
+
     if (!iframeRef.current) return;
     const iframeDoc =
       iframeRef.current.contentDocument ||
       iframeRef.current.contentWindow.document;
 
     iframeDoc.open();
-    iframeDoc.write(DOMPurify.sanitize(mail?.message?.html || ''));
+    iframeDoc.write(DOMPurify.sanitize(message));
     iframeDoc.close();
     iframeRef.current.contentWindow.scrollTo(0, 0);
   }, [mail]);

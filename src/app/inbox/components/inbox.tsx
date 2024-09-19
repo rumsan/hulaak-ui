@@ -1,6 +1,6 @@
 'use client';
 
-import { File, InboxIcon, Settings } from 'lucide-react';
+import { File, InboxIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { MailDisplay } from '@/app/inbox/components/mail-display';
@@ -160,7 +160,7 @@ export function Inbox({
                 ]}
               />
             </div>
-            <div className="mt-auto">
+            {/* <div className="mt-auto">
               <Nav
                 isCollapsed={isCollapsed}
                 links={[
@@ -172,7 +172,7 @@ export function Inbox({
                   },
                 ]}
               />
-            </div>
+            </div> */}
           </div>
         </ResizablePanel>
         <ResizableHandle className="max-sm:hidden" />
