@@ -40,7 +40,7 @@ export function LoginForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email) {
-      const inbox = email.toLowerCase();
+      const inbox = email?.trim().toLowerCase();
       router.push(`/inbox?mailbox=${encodeURIComponent(inbox)}`);
     }
   };

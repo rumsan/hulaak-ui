@@ -30,7 +30,7 @@ function MailHome() {
     if (urlObject.hostname !== 'localhost') {
       inboxInfo.host = urlObject.hostname;
     }
-    inboxInfo.mailbox = searchParams.get('mailbox') || '';
+    inboxInfo.mailbox = searchParams.get('mailbox')?.trim().toLowerCase() || '';
   }
 
   const [searchInput, setSearchInput] = useState('');
@@ -50,7 +50,7 @@ function MailHome() {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && searchInput.trim()) {
-      setMailbox((d) => ({ ...d, mailbox: searchInput }));
+      setMailbox((d) => ({ ...d, mailbox: searchInput.trim().toLowerCase() }));
       setSearchInput('');
     }
   };
