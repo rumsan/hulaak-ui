@@ -12,8 +12,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
 import { useRsAlert } from '@/hooks/rs.alert';
 import { Mail } from '@rumsan/hulaak/types';
 import { useEffect, useRef } from 'react';
@@ -25,6 +27,8 @@ interface MailDisplayProps {
     mailbox: string;
   };
   selected?: Mail;
+  alertSoundState: boolean;
+  changeAlertSoundState: () => void;
 }
 
 const getRandomLightColor = (str: string = 'RS') => {
@@ -57,7 +61,12 @@ const getRandomLightColor = (str: string = 'RS') => {
 };
 */
 
-export function MailDisplay({ inboxInfo, selected }: MailDisplayProps) {
+export function MailDisplay({
+  inboxInfo,
+  selected,
+  alertSoundState,
+  changeAlertSoundState,
+}: MailDisplayProps) {
   const { RsAlert, showAlert } = useRsAlert();
   const { data: mail } = EmailQuery.useGetById(selected?.id || '');
   const initials = mail?.from?.substring(0, 2).toUpperCase() || 'RS';
@@ -152,15 +161,7 @@ export function MailDisplay({ inboxInfo, selected }: MailDisplayProps) {
               title="email-content"
             />
           </ScrollArea>
-          <Separator />
-          <div className="h-20">
-            <div
-              className="p-2 text-muted-foreground text-right"
-              style={{ fontSize: '0.7rem' }}
-            >
-              © 2024 Maile.uk. All rights reserved.
-            </div>
-          </div>
+
           {/* <Separator className="mt-auto" />
           <div className="p-4">
             <form>
@@ -190,12 +191,31 @@ export function MailDisplay({ inboxInfo, selected }: MailDisplayProps) {
           </div> */}
         </div>
       ) : (
-        <div className="p-20 text-center text-muted-foreground">
+        <div className="w-full h-[calc(100vh-120px)] p-40 text-center text-muted-foreground">
           Send mail to this address
           <br />
           <b>{`${inboxInfo.mailbox}@${inboxInfo.host}`}</b>
         </div>
       )}
+      <Separator />
+      <div className="h-8 flex justify-between items-center">
+        <div className="flex items-center space-x-2 ml-2">
+          <Switch
+            id="chime"
+            checked={alertSoundState}
+            onCheckedChange={changeAlertSoundState}
+          />
+          <Label htmlFor="chime" className="text-xs text-muted-foreground">
+            Play Chime
+          </Label>
+        </div>
+        <div
+          className="p-2 text-muted-foreground text-right"
+          style={{ fontSize: '0.7rem' }}
+        >
+          © 2024 Maile.uk. All rights reserved.
+        </div>
+      </div>
     </div>
   );
 }
