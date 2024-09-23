@@ -45,7 +45,7 @@ export function LoginForm() {
     try {
       if (email) {
         const inbox = email?.trim().toLowerCase();
-        router.push(`/inbox?mailbox=${encodeURIComponent(inbox)}`);
+        router.push(`/box/${encodeURIComponent(inbox)}`);
       }
     } catch (error) {
       // Handle error

@@ -26,11 +26,6 @@ interface MailProps {
     host: string;
     mailbox: string;
   };
-  accounts: {
-    label: string;
-    email: string;
-    icon: React.ReactNode;
-  }[];
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
   navCollapsedSize: number;
@@ -102,7 +97,7 @@ export function Inbox({
   const selectMail = useCallback(
     async (mail: Mail) => {
       const selectedMail = mails.find((item) => item.id === mail.id);
-      if (selectedMail && !selectedMail.read) {
+      if (selectedMail) {
         selectedMail.read = true;
         setSelected(mail);
         await setRead.mutateAsync(selectedMail.id);
