@@ -115,7 +115,7 @@ export function MailDisplay({
     <div className="flex h-full flex-col">
       <RsAlert />
 
-      {mail ? (
+      {mail && isSmallScreen ? (
         <>
           <div className="flex items-center">
             <div className="flex items-center gap-2">
