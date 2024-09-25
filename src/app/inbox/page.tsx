@@ -61,13 +61,13 @@ function MailHome() {
         <div className="flex flex-col">
           <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
             <div className="relative mr-auto flex-1 md:grow-0">
-              <span className="w-full pl-24">
+              <span className="w-full pl-0 md:pl-24 flex justify-center">
                 <Image
                   src="/maile_logo.png"
                   width={600}
                   height={200}
                   alt="Logo"
-                  className="overflow-hidden pb-5"
+                  className="w-full max-w-[80%] sm:max-w-[400px] md:max-w-[600px] h-auto pb-5 object-contain"
                 />
               </span>
             </div>

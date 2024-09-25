@@ -64,10 +64,11 @@ function MailHome() {
               <span className="w-full pl-24">
                 <Image
                   src="/maile_logo.png"
+                  alt="Logo"
                   width={600}
                   height={200}
-                  alt="Logo"
-                  className="overflow-hidden pb-5"
+                  sizes="(max-width: 768px) 100vw, 50vw" // Serve different sizes based on screen width
+                  className="w-full max-w-[300px] md:max-w-[600px] h-auto overflow-hidden pb-5 object-contain"
                 />
               </span>
             </div>
@@ -105,7 +106,7 @@ function MailHome() {
               </DropdownMenuContent>
             </DropdownMenu>
           </header>
-          <main className="sm:px-6 sm:py-0 md:gap-8">
+          <main className="mt-2 sm:px-6 sm:py-0 md:gap-8">
             <div className="border rounded-lg h-[calc(100vh-100px)]">
               <Inbox
                 inboxInfo={mailbox}

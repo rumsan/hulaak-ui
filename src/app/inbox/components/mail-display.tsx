@@ -2,7 +2,7 @@
 
 import { format } from 'date-fns/format';
 import DOMPurify from 'dompurify';
-import { MoreVertical } from 'lucide-react';
+import { ArrowLeft, MoreVertical, Trash } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,11 @@ import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useRsAlert } from '@/hooks/rs.alert';
 import { Mail } from '@rumsan/hulaak/types';
 import { useEffect, useRef } from 'react';
@@ -28,6 +33,8 @@ interface MailDisplayProps {
   };
   selected?: Mail;
   alertSoundState: boolean;
+  isSmallScreen: boolean;
+  closeDisplay: () => void;
   changeAlertSoundState: () => void;
 }
 
@@ -65,6 +72,8 @@ export function MailDisplay({
   inboxInfo,
   selected,
   alertSoundState,
+  closeDisplay,
+  isSmallScreen,
   changeAlertSoundState,
 }: MailDisplayProps) {
   const { RsAlert, showAlert } = useRsAlert();
@@ -105,6 +114,41 @@ export function MailDisplay({
   return (
     <div className="flex h-full flex-col">
       <RsAlert />
+
+      {mail ? (
+        <>
+          <div className="flex items-center">
+            <div className="flex items-center gap-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" onClick={closeDisplay}>
+                    <ArrowLeft className="h-4 w-4" />
+                    <span className="sr-only">Archive</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Archive</TooltipContent>
+              </Tooltip>
+            </div>
+            <div className="ml-auto flex items-center gap-2">
+              <div className="ml-auto text-xs text-muted-foreground">
+                {format(new Date(mail.date), 'PPpp')}
+              </div>
+              <Separator orientation="vertical" className=" h-4" />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" onClick={showComingSoon}>
+                    <Trash className="h-4 w-4" />
+                    <span className="sr-only">Delete</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Archive</TooltipContent>
+              </Tooltip>
+            </div>
+          </div>
+          <Separator />
+        </>
+      ) : null}
+
       {mail ? (
         <div className="flex flex-1 flex-col">
           <div className="flex items-start p-4">
@@ -122,33 +166,36 @@ export function MailDisplay({
                 <div className="line-clamp-1 text-xs">{mail.subject}</div>
               </div>
             </div>
-            {mail.date && (
-              <div className="ml-auto text-xs text-muted-foreground">
-                {format(new Date(mail.date), 'PPpp')}
-              </div>
-            )}
-            <Separator orientation="vertical" className="mx-2 h-4" />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-4 w-3"
-                  disabled={!mail}
-                >
-                  <MoreVertical className="h-4 w-4" />
-                  <span className="sr-only">More</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={showComingSoon}>
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {!isSmallScreen ? (
+              <>
+                <div className="ml-auto text-xs text-muted-foreground">
+                  {format(new Date(mail.date), 'PPpp')}
+                </div>
+                <Separator orientation="vertical" className="mx-2 h-4" />
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-4 w-3"
+                      disabled={!mail}
+                    >
+                      <MoreVertical className="h-4 w-4" />
+                      <span className="sr-only">More</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={showComingSoon}>
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : null}
           </div>
           <Separator />
-          <ScrollArea className="h-[calc(100vh-210px)] p">
+
+          <ScrollArea className="h-[calc(100dvh-210px)] p-2">
             {/* <div
               className="flex-1 whitespace-pre-wrap p-4 text-sm"
               dangerouslySetInnerHTML={{
@@ -157,7 +204,7 @@ export function MailDisplay({
             ></div> */}
             <iframe
               ref={iframeRef}
-              className="w-full h-[calc(100vh-220px)] border-none"
+              className="w-full h-[calc(100dvh-220px)] border-none"
               title="email-content"
             />
           </ScrollArea>

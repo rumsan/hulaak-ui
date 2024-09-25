@@ -31,6 +31,22 @@ interface MailProps {
   navCollapsedSize: number;
 }
 
+function useIsSmallScreen() {
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 768); // Adjust the width based on your breakpoints
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Check on mount
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return isSmallScreen;
+}
+
 export function Inbox({
   inboxInfo,
   defaultLayout = [265, 440, 655],
@@ -41,6 +57,7 @@ export function Inbox({
   const [selected, setSelected] = useState<Mail | null>(null);
   const [alertSound, setAlertSound] = useState(false);
   const alertSoundRef = useRef(alertSound);
+  const isSmallScreen = useIsSmallScreen(); // U
   const { RsAlert, showAlert } = useRsAlert();
 
   const inbox = useInboxListByAddress(inboxInfo.mailbox, inboxInfo.host);
@@ -119,6 +136,10 @@ export function Inbox({
     setAlertSound((prev) => !prev);
   }, []);
 
+  const closeDisplay = useCallback(() => {
+    setSelected(null);
+  }, []);
+
   return (
     <TooltipProvider delayDuration={0}>
       <RsAlert />
@@ -131,54 +152,55 @@ export function Inbox({
         }}
         className="h-full items-stretch"
       >
-        <ResizablePanel
-          defaultSize={defaultLayout[0]}
-          collapsedSize={navCollapsedSize}
-          collapsible={true}
-          minSize={15}
-          maxSize={20}
-          // onCollapse={(collapsed) => {
-          //   console.log(collapsed);
-          //   setIsCollapsed(collapsed);
-          //   document.cookie = `react-resizable-panels:collapsed=${collapsed}`;
-          // }}
-          // className={cn(
-          //   isCollapsed &&
-          //     'min-w-[50px] transition-all duration-300 ease-in-out'
-          // )}
-          className="max-sm:hidden"
-        >
-          <div
-            className={cn(
-              'flex h-[52px] items-center justify-center',
-              isCollapsed ? 'h-[52px]' : 'px-2'
-            )}
+        {!isSmallScreen ? (
+          <ResizablePanel
+            defaultSize={defaultLayout[0]}
+            collapsedSize={navCollapsedSize}
+            collapsible={true}
+            minSize={15}
+            maxSize={20}
+            // onCollapse={(collapsed) => {
+            //   console.log(collapsed);
+            //   setIsCollapsed(collapsed);
+            //   document.cookie = `react-resizable-panels:collapsed=${collapsed}`;
+            // }}
+            // className={cn(
+            //   isCollapsed &&
+            //     'min-w-[50px] transition-all duration-300 ease-in-out'
+            // )}
+            className="max-sm:hidden"
           >
-            <h3 className="text-l font-bold text-blue-600">{`${inboxInfo.mailbox}@${inboxInfo.host}`}</h3>
-            {/* <AccountSwitcher isCollapsed={isCollapsed} accounts={accounts} /> */}
-          </div>
-          <Separator />
-          <div className="flex flex-col h-[calc(100vh-170px)]">
-            <div>
-              <Nav
-                isCollapsed={isCollapsed}
-                links={[
-                  {
-                    title: 'Inbox',
-                    label: mails.length.toString(),
-                    icon: InboxIcon,
-                    variant: 'default',
-                  },
-                  {
-                    title: 'Webhooks',
-                    icon: File,
-                    variant: 'ghost',
-                    onClick: showComingSoon,
-                  },
-                ]}
-              />
+            <div
+              className={cn(
+                'flex h-[52px] items-center justify-center',
+                isCollapsed ? 'h-[52px]' : 'px-2'
+              )}
+            >
+              <h3 className="text-l font-bold text-blue-600">{`${inboxInfo.mailbox}@${inboxInfo.host}`}</h3>
+              {/* <AccountSwitcher isCollapsed={isCollapsed} accounts={accounts} /> */}
             </div>
-            {/* <div className="mt-auto">
+            <Separator />
+            <div className="flex flex-col h-[calc(100vh-170px)]">
+              <div>
+                <Nav
+                  isCollapsed={isCollapsed}
+                  links={[
+                    {
+                      title: 'Inbox',
+                      label: mails.length.toString(),
+                      icon: InboxIcon,
+                      variant: 'default',
+                    },
+                    {
+                      title: 'Webhooks',
+                      icon: File,
+                      variant: 'ghost',
+                      onClick: showComingSoon,
+                    },
+                  ]}
+                />
+              </div>
+              {/* <div className="mt-auto">
               <Nav
                 isCollapsed={isCollapsed}
                 links={[
@@ -191,69 +213,75 @@ export function Inbox({
                 ]}
               />
             </div> */}
-          </div>
-        </ResizablePanel>
-        <ResizableHandle className="max-sm:hidden" />
-        <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
-          <Tabs defaultValue="all">
-            <div className="flex items-center px-4 py-2">
-              <h1 className="text-xl font-bold">Inbox</h1>
-              <TabsList className="ml-auto">
-                <TabsTrigger
-                  value="all"
-                  className="text-zinc-600 dark:text-zinc-200"
-                >
-                  All mail
-                </TabsTrigger>
-                <TabsTrigger
-                  value="unread"
-                  className="text-zinc-600 dark:text-zinc-200"
-                >
-                  Unread
-                </TabsTrigger>
-              </TabsList>
             </div>
-            <Separator />
-            <div className="bg-background/95 p-2 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-              {/* <form>
+          </ResizablePanel>
+        ) : null}
+
+        <ResizableHandle className="max-sm:hidden" />
+
+        {(isSmallScreen && !selected) || !isSmallScreen ? (
+          <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
+            <Tabs defaultValue="all">
+              <div className="flex items-center px-4 py-2">
+                <h1 className="text-xl font-bold">Inbox</h1>
+                <TabsList className="ml-auto">
+                  <TabsTrigger
+                    value="all"
+                    className="text-zinc-600 dark:text-zinc-200"
+                  >
+                    All mail
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="unread"
+                    className="text-zinc-600 dark:text-zinc-200"
+                  >
+                    Unread
+                  </TabsTrigger>
+                </TabsList>
+              </div>
+              <Separator />
+              <div className="bg-background/95 p-2 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+                {/* <form>
                 <div className="relative">
                   <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input placeholder="Search" className="pl-8" />
                 </div>
               </form> */}
-            </div>
-            <TabsContent value="all" className="m-0">
-              <MailList
-                items={mails || []}
-                selected={selected}
-                selectMail={selectMail}
-              />
-            </TabsContent>
-            <TabsContent value="unread" className="m-0">
-              <MailList
-                items={mails.filter((item) => !item.read) || []}
-                selected={selected}
-                selectMail={selectMail}
-              />
-            </TabsContent>
-          </Tabs>
-        </ResizablePanel>
+              </div>
+              <TabsContent value="all" className="m-0">
+                <MailList
+                  items={mails || []}
+                  selected={selected}
+                  selectMail={selectMail}
+                />
+              </TabsContent>
+              <TabsContent value="unread" className="m-0">
+                <MailList
+                  items={mails.filter((item) => !item.read) || []}
+                  selected={selected}
+                  selectMail={selectMail}
+                />
+              </TabsContent>
+            </Tabs>
+          </ResizablePanel>
+        ) : null}
         <ResizableHandle className="max-sm:hidden" />
-        <ResizablePanel
-          defaultSize={defaultLayout[2]}
-          className="max-sm:hidden"
-        >
-          <MailDisplay
-            selected={selected || undefined}
-            inboxInfo={inboxInfo}
-            // alertSound={{
-            //   enabled: alertSound,
-            //   changeState: playAlertSound,
-            // }}
-            alertSoundState={alertSound}
-            changeAlertSoundState={toggleAlertSound}
-          />
-        </ResizablePanel>
+        {(isSmallScreen && selected) || !isSmallScreen ? (
+          <ResizablePanel defaultSize={defaultLayout[2]}>
+            <MailDisplay
+              selected={selected || undefined}
+              inboxInfo={inboxInfo}
+              isSmallScreen={isSmallScreen}
+              closeDisplay={closeDisplay}
+              // alertSound={{
+              //   enabled: alertSound,
+              //   changeState: playAlertSound,
+              // }}
+              alertSoundState={alertSound}
+              changeAlertSoundState={toggleAlertSound}
+            />
+          </ResizablePanel>
+        ) : null}
       </ResizablePanelGroup>
     </TooltipProvider>
   );
