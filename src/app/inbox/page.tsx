@@ -64,10 +64,10 @@ function MailHome() {
               <span className="w-full pl-0 md:pl-24 flex justify-center">
                 <Image
                   src="/maile_logo.png"
-                  width={600}
-                  height={200}
+                  width={432}
+                  height={172}
                   alt="Logo"
-                  className="w-full max-w-[80%] sm:max-w-[400px] md:max-w-[600px] h-auto pb-5 object-contain"
+                  className="w-full max-w-[80%] sm:max-w-[400px] md:max-w-[600px] h-auto pb-4 object-contain"
                 />
               </span>
             </div>

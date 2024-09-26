@@ -59,10 +59,10 @@ export function LoginForm() {
       <CardHeader className="flex items-center">
         <Image
           src="/maile_logo.png"
-          width={150}
-          height={50}
+          width={216}
+          height={86}
           alt="Logo"
-          className="overflow-hidden pb-5"
+          className="overflow-hidden pb-2"
         />
       </CardHeader>
       <CardContent>
