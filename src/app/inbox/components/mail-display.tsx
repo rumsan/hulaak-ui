@@ -81,7 +81,7 @@ export function MailDisplay({
   const initials = mail?.from?.substring(0, 2).toUpperCase() || 'RS';
   const avatraColor = getRandomLightColor(initials);
 
-  const iframeRef = useRef(null);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   useEffect(() => {
     let message = mail?.message?.html;
@@ -92,12 +92,14 @@ export function MailDisplay({
     if (!iframeRef.current) return;
     const iframeDoc =
       iframeRef.current.contentDocument ||
-      iframeRef.current.contentWindow.document;
+      iframeRef.current.contentWindow?.document;
 
-    iframeDoc.open();
-    iframeDoc.write(DOMPurify.sanitize(message));
-    iframeDoc.close();
-    iframeRef.current.contentWindow.scrollTo(0, 0);
+    if (iframeDoc) {
+      iframeDoc.open();
+      iframeDoc.write(DOMPurify.sanitize(message));
+      iframeDoc.close();
+      iframeRef.current.contentWindow?.scrollTo(0, 0);
+    }
   }, [mail]);
 
   const showComingSoon = () => {
@@ -154,7 +156,7 @@ export function MailDisplay({
           <div className="flex items-start p-4">
             <div className="flex items-start gap-4 text-sm">
               <Avatar>
-                <AvatarImage alt={mail.name} />
+                <AvatarImage alt={mail.address} />
                 <AvatarFallback
                   style={{ backgroundColor: avatraColor, fontWeight: 600 }}
                 >

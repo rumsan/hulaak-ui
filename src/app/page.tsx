@@ -1,9 +1,5 @@
-import { LoginForm } from '@/components/login-form';
+import HomePage from './home/page';
 
-export default function Page() {
-  return (
-    <div className="flex h-screen w-full items-center justify-center px-4">
-      <LoginForm />
-    </div>
-  );
+export default function MainPage() {
+  return <HomePage />;
 }

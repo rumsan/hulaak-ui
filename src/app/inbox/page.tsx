@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -36,11 +37,11 @@ function MailHome() {
   const [searchInput, setSearchInput] = useState('');
   const [mailbox, setMailbox] = useState(inboxInfo);
 
-  const layout = null; // cookies().get('react-resizable-panels:layout');
-  const collapsed = null; // cookies().get('react-resizable-panels:collapsed');
+  //const layout = null; // cookies().get('react-resizable-panels:layout');
+  //const collapsed = null; // cookies().get('react-resizable-panels:collapsed');
 
-  const defaultLayout = layout ? JSON.parse(layout.value) : [265, 440, 655];
-  const defaultCollapsed = collapsed ? collapsed.value : false;
+  const defaultLayout = [265, 440, 655];
+  const defaultCollapsed = false;
 
   useEffect(() => {
     if (mailbox.mailbox && mailbox.host) {
@@ -48,7 +49,7 @@ function MailHome() {
     }
   }, [mailbox]);
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: { key: string }) => {
     if (e.key === 'Enter' && searchInput.trim()) {
       setMailbox((d) => ({ ...d, mailbox: searchInput.trim().toLowerCase() }));
       setSearchInput('');

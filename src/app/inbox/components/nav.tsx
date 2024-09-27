@@ -22,7 +22,7 @@ interface NavProps {
   }[];
 }
 
-export function Nav({ links, onClick, isCollapsed }: NavProps) {
+export function Nav({ links, isCollapsed }: NavProps) {
   return (
     <div
       data-collapsed={isCollapsed}

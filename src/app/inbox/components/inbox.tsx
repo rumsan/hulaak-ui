@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import { File, InboxIcon } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -53,7 +54,7 @@ export function Inbox({
   defaultCollapsed = false,
   navCollapsedSize,
 }: MailProps) {
-  const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+  const [isCollapsed] = useState(defaultCollapsed);
   const [selected, setSelected] = useState<Mail | null>(null);
   const [alertSound, setAlertSound] = useState(false);
   const alertSoundRef = useRef(alertSound);
@@ -107,7 +108,7 @@ export function Inbox({
     return () => socketIo.disconnect();
   }, [inboxInfo]);
 
-  useEffect(() => {
+  useEffect((): any => {
     return initializeSocket();
   }, [initializeSocket]);
 

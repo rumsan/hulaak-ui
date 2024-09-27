@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -11,17 +12,19 @@ import { Input } from '@/components/ui/input';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { Amita } from 'next/font/google';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Inbox } from '../../inbox/components/inbox';
+const amita = Amita({ weight: '700', subsets: ['latin'] });
 
 function MailHome() {
   const router = useRouter();
   const { box } = useParams();
   const inboxInfo = {
     host: 'maile.uk',
-    mailbox: box,
+    mailbox: box as string,
   };
 
   if (typeof window !== 'undefined') {
@@ -36,11 +39,11 @@ function MailHome() {
   const [searchInput, setSearchInput] = useState('');
   const [mailbox, setMailbox] = useState(inboxInfo);
 
-  const layout = null; // cookies().get('react-resizable-panels:layout');
-  const collapsed = null; // cookies().get('react-resizable-panels:collapsed');
+  //const layout = null; // cookies().get('react-resizable-panels:layout');
+  //const collapsed = null; // cookies().get('react-resizable-panels:collapsed');
 
-  const defaultLayout = layout ? JSON.parse(layout.value) : [265, 440, 655];
-  const defaultCollapsed = collapsed ? collapsed.value : false;
+  const defaultLayout = [265, 440, 655];
+  const defaultCollapsed = false;
 
   useEffect(() => {
     if (mailbox.mailbox && mailbox.host) {
@@ -48,7 +51,7 @@ function MailHome() {
     }
   }, [mailbox]);
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: { key: string }) => {
     if (e.key === 'Enter' && searchInput.trim()) {
       setMailbox((d) => ({ ...d, mailbox: searchInput.trim().toLowerCase() }));
       setSearchInput('');
@@ -59,18 +62,11 @@ function MailHome() {
     <TooltipProvider>
       <div className="flex min-h-screen w-full flex-col bg-muted/40">
         <div className="flex flex-col">
-          <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+          <header className="sticky top-0 mt-3 mb-2 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
             <div className="relative mr-auto flex-1 md:grow-0">
-              <span className="w-full pl-24">
-                <Image
-                  src="/maile_logo.png"
-                  alt="Logo"
-                  width={600}
-                  height={200}
-                  sizes="(max-width: 768px) 100vw, 50vw" // Serve different sizes based on screen width
-                  className="w-full max-w-[300px] md:max-w-[600px] h-auto overflow-hidden pb-5 object-contain"
-                />
-              </span>
+              <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-4xl">
+                <span className={amita.className}>maile</span>
+              </h1>
             </div>
             <div className="relative flex-1 md:grow-0">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
