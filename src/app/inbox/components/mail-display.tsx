@@ -85,11 +85,12 @@ export function MailDisplay({
   useEffect(() => {
     let message = mail?.message?.html;
 
-    if (message < 5) {
+    if (message?.length < 5) {
       message = mail?.message?.text || 'ERROR: NO BODY SENT';
     }
 
     if (!iframeRef.current) return;
+
     const iframeDoc =
       iframeRef.current.contentDocument ||
       iframeRef.current.contentWindow?.document;
@@ -99,6 +100,12 @@ export function MailDisplay({
       //iframeDoc.write(DOMPurify.sanitize(message));
       iframeDoc.write(message);
       iframeDoc.close();
+
+      const links = iframeDoc.querySelectorAll('a');
+      links.forEach((link) => {
+        link.setAttribute('target', '_blank');
+      });
+
       iframeRef.current.contentWindow?.scrollTo(0, 0);
     }
   }, [mail]);
