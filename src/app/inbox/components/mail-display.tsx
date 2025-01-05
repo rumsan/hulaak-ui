@@ -1,7 +1,6 @@
 'use client';
 
 import { format } from 'date-fns/format';
-import DOMPurify from 'dompurify';
 import { ArrowLeft, MoreVertical, Trash } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -85,6 +84,7 @@ export function MailDisplay({
 
   useEffect(() => {
     let message = mail?.message?.html;
+
     if (message < 5) {
       message = mail?.message?.text || 'ERROR: NO BODY SENT';
     }
@@ -96,7 +96,8 @@ export function MailDisplay({
 
     if (iframeDoc) {
       iframeDoc.open();
-      iframeDoc.write(DOMPurify.sanitize(message));
+      //iframeDoc.write(DOMPurify.sanitize(message));
+      iframeDoc.write(message);
       iframeDoc.close();
       iframeRef.current.contentWindow?.scrollTo(0, 0);
     }
