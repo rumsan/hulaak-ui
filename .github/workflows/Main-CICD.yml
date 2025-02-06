@@ -1,0 +1,46 @@
+name: Main CI/CD
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+env:
+  CI: false
+  env_main: ${{secrets.ENV_MAIN}}
+
+jobs:
+  deploy:
+    name: build && push image to Docker hub
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: create environment file
+        run: |
+          touch ./.env && echo "$env_main" >> ./.env
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: docker login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # hulaak Image
+      - name: build && push hulaak
+        id: build-push-hulaak
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile.hulaak-ui
+          cache-from: type=gha,scope=hulaak-ui
+          cache-to: type=gha,mode=max,scope=hulaak-ui
+          push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+          tags: rumsan/hulaak-ui:main
