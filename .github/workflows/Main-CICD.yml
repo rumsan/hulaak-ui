@@ -39,7 +39,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: Dockerfile.hulaak-ui
+          file: Dockerfile.hulaak-ui-dev
           cache-from: type=gha,scope=hulaak-ui
           cache-to: type=gha,mode=max,scope=hulaak-ui
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
