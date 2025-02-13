@@ -7,7 +7,12 @@
 .yarn/install-state.gz
 /play
 .npmrc
+
+# ENV
 .env
+.env.*
+!.env.example
+
 
 # testing
 /coverage
